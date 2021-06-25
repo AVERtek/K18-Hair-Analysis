@@ -1,4 +1,4 @@
-# EXPLORE THE SCIENCE OF K18! <!-- Loads <model-viewer> for old browsers like IE11: -->
+# K18: JOURNEY THROUGH A HAIR FIBER! <!-- Loads <model-viewer> for old browsers like IE11: -->
 <p align="center">
 <img src="images/aquis logo-B_410x.png" width=200>
 </p>
