@@ -1,4 +1,4 @@
-# K18 HAIR FIBER JOURNEY! <!-- Loads <model-viewer> for old browsers like IE11: -->
+# HOW THE K18 CRUSADE LIBERATES HAIRCARE! <!-- Loads <model-viewer> for old browsers like IE11: -->
 <p align="center">
 <img src="images/aquis logo-B_410x.png" width=200>
 </p>
