@@ -7,13 +7,13 @@
  <meta name="viewport" content="width=device-width, initial-scale=1">
  
  <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-205255955-1"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-000000000-0"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'UA-205255955-1');
+  gtag('config', 'UA-000000000-0');
 </script>
 
  </head>
@@ -111,13 +111,13 @@ var getOutboundLink = function(url) {
  
 .container {
  column-count: 2;
- column-width: 250px;
- column-gap: 10px;
+ column-width: 400px;
+ column-gap: 5px;
 }
   .card {
   break-inside: avoid;
-  background-color: rgb(255, 255, 255);
-  border: 2px solid rgb(255, 255, 255);
+  background-color: #00BBB4;
+  border: 2px solid rgb(0, 187, 185);
   padding: 10px;
   margin: 0 0 1em 0;
 }
@@ -129,32 +129,39 @@ var getOutboundLink = function(url) {
     margin: 10px auto 10px;
     display: block;
 }
+ .centerImage
+{
+ text-align:center;
+ display:block;
+}
 </style>
+ 
+<body bgcolor= #00BBB4>
 
-<body>
+ <body>
 
 <!--<h1>The column-count Property</h1> -->
 <!--<p>The column-count property defines the number of columns an element is divided into:</p> -->
 
 <div class="container">
     <div class="card">
-      <img class="marginauto" src="images/aquis logo-K18 a200.png" alt="Logo" style="width: auto; height: 100px"> 
+      <img class="marginauto" src="images/K18_Logo_White.png" alt="Logo" style="width: auto; height: 100px"> 
       
      <div class="card">
-       <model-viewer src="Models/AR_57sec_version_final.glb?sound=Sound/K18 Edit 57sec_2.mp3"
-                    autoplay animation-name="" id="interaction" ar ar-modes="scene-viewer webxr quick-look" ios-src="Models/K18Final.reality"
+       <model-viewer src="Models/AR_57seconds_withoutBanner.glb?sound=Sound/K18 Edit 57sec_3.mp3"
+                    autoplay animation-name="" id="interaction" ar ar-modes="scene-viewer webxr quick-look" ios-src="Models/K18.reality"
                     alt="K18 Fiber Journey" auto-rotate-delay="0" ar-scale="auto"
                     slot= "progress-bar"
                     style="z-index: 1; width: 100%; height: 480px; position: static; ">
                     <button slot="ar-button" 
                     style="z-index: 9; background-color: white; border-radius: 8px; border: 1 px solid white; position: absolute; top: 2px; right: 0; height: 40px; width: auto; ">
 
-      👆 AR Click Here
+                     👆 <strong>AR Click Here</strong>
        </button>   
         <div class="card"> 
      <model-viewer id="model-viewer" loading="eager" src="Models/K18_TEST_Ver.5.glb?sound=Sound/K18 VOICE.mp3" camera-controls
                    camera-orbit="0deg 90deg 30%" autoplay animation-name="" id="reveal"
-                   ios-src="Models/K18Final.reality" alt="K18 Fiber Journey" auto-rotate-delay="0" camera-controls alt="K18-Test-Demo-1"
+                   ios-src="Models/K18.reality" alt="K18 Fiber Journey" auto-rotate-delay="0" camera-controls alt="K18-Test-Demo-3"
                    style="z-index: 2; width: 100%; height: 500px; position: static; ">
       </model-viewer>
       </div>
@@ -165,7 +172,7 @@ var getOutboundLink = function(url) {
      <section class="attribution">
         <div>
           <span>
-            <h1 style="text-align: center;" markdown="1"><p style="font-family:helvetica neue bold">Listen to Narration</p></h1>
+            <h1 style="text-align: center;" markdown="1"><b style="color:#FFFFFF;"><p style="font-family:helvetica neue bold">LISTEN TO NARRATION</p></h1>
               <p align="center">
               <span>
               <audio controls autoplay loop id="sound">
@@ -182,18 +189,24 @@ var getOutboundLink = function(url) {
         });
       </script>
      
-   <br>
-      <h2 style="text-align: center;" markdown="1"><p style="font-family:helvetica neue bold"><b>FOLLOW THE SCIENCE:</b>
-      <a href="https://www.k18hair.com/pages/our-science" onclick="getOutboundLink('https://www.k18hair.com/pages/our-science');
-                                                                   return false;"<b> LEARN MORE HERE</p></b></h2></a>
-      <h2 style="text-align: center;" markdown="1"><p style="font-family:helvetica neue bold"><a href="https://www.k18hair.com/pages/our-science" 
-        onclick="getOutboundLink('https://www.k18hair.com/pages/our-science'); return false;">JOIN OUR CRUSADE</p></a></h2>
+    <h2 style="text-align: center;" markdown="1"><b style="color:#FFFFFF;"><p style="font-family:helvetica neue bold"><b>FOLLOW THE SCIENCE:</b>
+      <br><br>
+      
+     <button onclick="location.href='https://www.k18hair.com/pages/our-science'" type="button" slot="" 
+                    style="z-index: 9; background-color: #FF595A; border-radius: 8px; border: 1 px solid white; position: static; height: 40px; width: auto; ">
+       <b style="color:#FFFFFF;"><strong>LEARN MORE HERE</strong>
 
-    </div> 
+       </button> 
+     
+       <button onclick="location.href='https://www.k18hair.com/pages/our-science'" type="button" slot="" 
+                    style="z-index: 9; background-color: #FF595A; border-radius: 8px; border: 1 px solid white; position: static; height: 40px; width: auto; ">
+       <b style="color:#FFFFFF;"><strong>JOIN OUR CRUSADE</strong>
+
+       </button> 
+        
+     </div> 
     <div class="card">
-      <h1 style="text-align: center;" markdown="1"><b style="color:#FF595A;"><p style="font-family:helvetica neue bold">Explore AR: inside the world of hair</h1></b>
-      <h1 style="text-align: center;" markdown="1"><b style="color:#FF595A;">view on mobile devices</p></h1></b>
-      <img class="marginauto" src="images/AR Instructions ext 1a.png" style="width: 370px; height: 685px"> 
+      <img class="marginauto" src="images/K18 Symbology Sheet 6.png" style="max-width: 100%; height: 700px"> 
           </style>
      
     </div>
@@ -203,7 +216,7 @@ var getOutboundLink = function(url) {
    
    <br><br>
      <h3 style="text-align: center;" markdown="1"><a href="https://avertek.net/" onclick="getOutboundLink('https://avertek.net/');
-       return false;"><p style="font-family:helvetica neue bold">Learn More About AVERtek's XR-NOW</p></a></h3>
+       return false;"><b style="color:#FFFFFF;"><p style="font-family:helvetica neue bold">Learn More About AVERtek's XR-NOW</p></a></h3>
     </div>
 
 
