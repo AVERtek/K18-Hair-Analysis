@@ -153,8 +153,8 @@ var getOutboundLink = function(url) {
 <div class="container">
     <div class="card">
       <img class="marginauto" src="images/K18_Logo_White.png" alt="Logo" style="width: auto; height: 100px"> 
- </div>
-     <div class="card">
+     </div>
+     <div class="card1">
        <model-viewer src="Models/AR_57seconds_withoutBanner.glb?sound=Sound/K18 Edit 57sec_3.mp3"
                     autoplay animation-name="" id="interaction" ar ar-modes="scene-viewer webxr quick-look" ios-src="Models/K18.reality"
                     alt="K18 Fiber Journey" auto-rotate-delay="0" ar-scale="auto"
@@ -162,21 +162,16 @@ var getOutboundLink = function(url) {
                     style="z-index: 1; width: 100%; height: 480px; position: static; ">
                     <button slot="ar-button" 
                     style="z-index: 9; background-color: #ff595a; border-radius: 8px; border: 1 px solid white; position: absolute; top: 2px; right: 0; height: 40px; width: auto; ">
-
-                     👆 <b style="color:#FFFFFF;"><strong>AR Click Here</strong>
-       </button>  
-                     </div>
-        <div class="card1">
+                     👆 <b style="color:#FFFFFF;"><strong>AR Click Here</strong></button>  
+       </model-viewer>
      <model-viewer id="model-viewer" loading="eager" src="Models/K18_TEST_Ver.5.glb?sound=Sound/K18 VOICE.mp3" camera-controls
                    camera-orbit="0deg 90deg 30%" autoplay animation-name="" id="reveal"
                    ios-src="Models/K18.reality" alt="K18 Fiber Journey" auto-rotate-delay="0" camera-controls alt="K18-Test-Demo-3"
                    style="z-index: 2; width: 100%; height: 500px; position: static; ">
-      </model-viewer>
-      </div>
-      
-   </model-viewer>
+  
+     </model-viewer>
      </div>   
-   <div class="card">
+     <div class="card">
      <section class="attribution">
         <div>
           <span>
@@ -197,10 +192,8 @@ var getOutboundLink = function(url) {
         });
       </script>
       </div>
-    <br><br>
    <div class="card">
     <h1 style="text-align: center;" markdown="1"><b style="color:#FFFFFF;"><p style="font-family:helvetica neue bold"><b>FOLLOW THE SCIENCE:</b></h1>
-    <br> 
      
     <button onclick="location.href='https://www.k18hair.com/pages/our-science'" type="button" slot="" 
                     style="z-index: 9; background-color: #ff595a; border-radius: 8px; border: 1 px solid white; position: static; height: 35px; width: auto; ">
@@ -217,7 +210,7 @@ var getOutboundLink = function(url) {
      </div> 
     <div class="card">
       <img class="marginauto" src="images/K18 Symbology Sheet 6.png" style="max-width: 100%; height: 700px"> 
-          </style>
+      
      
     </div>
 
