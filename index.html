@@ -5,14 +5,7 @@
  <meta charset="UTF-8">
  <meta http-equiv="X-UA-Compatible" content="IE=edge">
  <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-PX9H79G');</script>
-<!-- End Google Tag Manager -->
- 
+
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-205255955-1"></script>
 <script>
@@ -23,6 +16,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   gtag('config', 'UA-205255955-1');
  
  </script>
+
+ <script>
+function gtag_report_conversion(url) {
+     var callback = function () {
+     if (typeof(url) != 'undefined') {
+      window.location = url;
+    }
+  };
+  gtag('event', 'conversion', {
+      'send_to': 'AW-CONVERSION_ID/CONVERSION_LABEL',
+      'value': 1.0,
+      'currency': 'USD',
+     'event_callback': callback
+  });
+return false;
+}
+</script> 
+ 
  </head>
  
  <!-- Loads <model-viewer> for modern browsers: -->
@@ -114,8 +125,8 @@ var getOutboundLink = function(url) {
   });
 }
 </script>
- 
-<style> 
+
+ <style> 
  
 .container {
  column-count: 2;
@@ -154,11 +165,6 @@ var getOutboundLink = function(url) {
 <body bgcolor= #00BBB4>
 
  <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PX9H79G"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
- 
 <!--<h1>The column-count Property</h1> -->
 <!--<p>The column-count property defines the number of columns an element is divided into:</p> -->
 
@@ -211,7 +217,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h2 style="text-align: center;" markdown="1"><b style="color:#FFFFFF;"><p style="font-family: '-apple-system', helvetica neue LT Pro"><b>CAN'T GET ENOUGH?</b>
      <br><br>
    
-    <button onclick="location.href='https://www.k18hair.com/pages/our-science'" type="button" id="website" slot="" style="z-index: 9; background-color: #ff595a; border-radius: 8px; border: 1 px solid white; position: static; height: 35px; width: auto;
+    <button onclick="return gtag_report_conversion('https://www.k18hair.com/pages/our-science')">Submit</button> type="button" id="website" slot="" style="z-index: 9; background-color: #ff595a; border-radius: 8px; border: 1 px solid white; position: static; height: 35px; width: auto;
                           color:#FFFFFF; font-family: '-apple-system', helvetica neue LT Pro; "><strong>HOW K18 WORKS</strong>
 
        </button> 
