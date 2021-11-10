@@ -17,23 +17,6 @@
  
  </script>
 
- <script>
-function gtag_report_conversion(url) {
-     var callback = function () {
-     if (typeof(url) != 'undefined') {
-      window.location = url;
-    }
-  };
-  gtag('event', 'conversion', {
-      'send_to': 'AW-CONVERSION_ID/CONVERSION_LABEL',
-      'value': 1.0,
-      'currency': 'USD',
-     'event_callback': callback
-  });
-return false;
-}
-</script> 
- 
  </head>
  
  <!-- Loads <model-viewer> for modern browsers: -->
@@ -217,13 +200,9 @@ var getOutboundLink = function(url) {
     <h2 style="text-align: center;" markdown="1"><b style="color:#FFFFFF;"><p style="font-family: '-apple-system', helvetica neue LT Pro"><b>CAN'T GET ENOUGH?</b>
      <br><br>
    
-    <type="button" id="website" slot="" style="z-index: 9; background-color: #ff595a; border-radius: 8px; border: 1 px solid white; position: static; height: 35px; width: auto;
+   <button onclick="location.href='https://www.k18hair.com/pages/our-science'" type="button" id="website" slot="" style="z-index: 9; background-color: #ff595a; border-radius: 8px; border: 1 px solid white; position: static; height: 35px; width: auto;
                           color:#FFFFFF; font-family: '-apple-system', helvetica neue LT Pro; "><strong>HOW K18 WORKS</strong>
-        onclick="return gtag_report_conversion('https://www.k18hair.com/pages/our-science')" />
-     
-     <!-- <button onclick="location.href='https://www.k18hair.com/pages/our-science'" type="button" id="website" slot="" style="z-index: 9; background-color: #ff595a; border-radius: 8px; border: 1 px solid white; position: static; height: 35px; width: auto;
-                          color:#FFFFFF; font-family: '-apple-system', helvetica neue LT Pro; "><strong>HOW K18 WORKS</strong>
-       </button> --> 
+       </button> 
    
     <button onclick="location.href='https://www.instagram.com/k18hair/?hl=en'" type="button" id="instagram" slot="" style="z-index: 9; background-color: #ff595a; border-radius: 8px; border: 1 px solid white; position: static; height: 35px; width: auto;
                            color:#FFFFFF; font-family: '-apple-system', helvetica neue LT Pro; "><strong>JOIN OUR CRUSADE</strong>
