@@ -67,6 +67,7 @@
                 ar-modes="webxr scene-viewer quick-look" 
                 ar-preferred
                 ar-scale="any" 
+                ar-placement="floor"
                 camera-controls 
                 autoplay
                 interaction-prompt="none">
@@ -94,12 +95,6 @@
         <div class="card">
             <img class="marginauto" src="images/K18 Symbology Sheet 8final750c.png" style="max-width: 100%"> 
         </div>
-
-        <div class="card" style="text-align: center; color: white;">
-            <h3>CAN'T GET ENOUGH?</h3>
-            <button onclick="window.open('https://www.k18hair.com/pages/our-science')" style="background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; width: 180px; color: white; cursor: pointer; margin-bottom: 10px;"><strong>HOW K18 WORKS</strong></button>
-            <button onclick="window.open('https://www.instagram.com/k18hair/?hl=en')" style="background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; width: 180px; color: white; cursor: pointer;"><strong>JOIN OUR CRUSADE</strong></button>
-        </div>
     </div>
 
     <script>
@@ -108,41 +103,40 @@
         const overlay = document.querySelector("#overlay");
         const arButton = document.querySelector("#ar-launcher");
 
-        // PRE-LAUNCH: Swap attributes to the AR-Specific files
+        // 1. PRE-LAUNCH AR: Set the specific AR files
         arButton.addEventListener('click', () => {
             modelViewer.src = "Models/AR_57seconds_withoutBanner.glb?sound=Sound/K18 Edit 57sec_3.mp3";
             modelViewer.iosSrc = "Models/AR_57seconds_withoutBanner_WithAudioEN.usdz";
-            // Reinforce scaling permission for AR
-            modelViewer.setAttribute('ar-scale', 'any');
         });
 
-        // START EXPERIENCE: Remove overlay and play both
+        // 2. POST-AR RESET: Detect when user exits AR and swap back to original model
+        modelViewer.addEventListener('ar-status', (event) => {
+            if (event.detail.status === 'not-presenting') {
+                console.log("Exited AR - Resetting to original model");
+                modelViewer.src = "Models/K18_TEST_Ver.5.glb";
+                // Restore sync time after swap
+                setTimeout(() => {
+                    modelViewer.currentTime = audio.currentTime;
+                    if (!audio.paused) modelViewer.play();
+                }, 500);
+            }
+        });
+
         function startExperience() {
             overlay.classList.add("hide");
             audio.play();
             modelViewer.play();
         }
 
-        // TWO-WAY SYNC: Forces the 3D animation to follow the audio slider exactly
+        // 3. TWO-WAY SYNC: Slider Scrubbing
         audio.addEventListener("timeupdate", () => {
-            if (!isNaN(audio.currentTime)) {
+            if (!isNaN(audio.currentTime) && modelViewer.src.includes("Ver.5")) {
                 modelViewer.currentTime = audio.currentTime;
             }
         });
 
-        // PLAY/PAUSE SYNC
-        audio.addEventListener("play", () => {
-            modelViewer.play();
-        });
-        
-        audio.addEventListener("pause", () => {
-            modelViewer.pause();
-        });
-
-        // LOGGING FOR DEBUGGING
-        modelViewer.addEventListener('load', () => {
-            console.log("Model Loaded. Current Scale Setting:", modelViewer.arScale);
-        });
+        audio.addEventListener("play", () => modelViewer.play());
+        audio.addEventListener("pause", () => modelViewer.pause());
     </script>
 </body>
 </html>
