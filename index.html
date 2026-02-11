@@ -11,6 +11,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-KT4SXZW');</script>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-443405V12S"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -31,7 +32,7 @@
         #overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.4); z-index: 10;
-            display: flex; justify-content: center; align-items: center; cursor: pointer;
+            display: flex; justify-content: center; align-items: center; cursor: pointer; border-radius: 8px;
         }
         #overlay.hide { display: none; }
         .play-trigger { background: #ff595a; color: white; border: 1px solid white; padding: 12px 24px; border-radius: 8px; font-weight: bold; font-family: '-apple-system', helvetica neue LT Pro; }
@@ -43,7 +44,7 @@
             font-family: '-apple-system', helvetica neue LT Pro;
         }
 
-        model-viewer { width: 100%; height: 500px; }
+        model-viewer { width: 100%; height: 500px; --poster-color: transparent; }
         .marginauto { margin: 10px auto; display: block; }
     </style>
 </head>
@@ -63,13 +64,14 @@
 
             <model-viewer id="sync-model" 
                 src="Models/K18_TEST_Ver.5.glb" 
+                ios-src="Models/AR_57seconds_withoutBanner_WithAudioEN.usdz#allowsScaling=1"
                 ar ar-modes="webxr scene-viewer quick-look" 
                 ar-preferred
                 ar-scale="any" 
                 ar-placement="floor"
                 camera-controls 
-                min-camera-orbit="auto auto 5%"
-                max-camera-orbit="auto auto 200%"
+                min-field-of-view="10deg"
+                max-field-of-view="auto"
                 autoplay
                 interaction-prompt="none">
                 
@@ -91,11 +93,11 @@
                 <b style="color:#FFFFFF;"><p style="font-family: '-apple-system', helvetica neue LT Pro"><b>CAN'T GET ENOUGH?</b></p></b>
             </h2>
             <button onclick="location.href='https://www.k18hair.com/pages/our-science'" type="button" id="website" 
-                style="z-index: 9; background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; width: 180px; color:#FFFFFF; font-family: '-apple-system', helvetica neue LT Pro; margin: 5px;">
+                style="background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; width: 180px; color:#FFFFFF; font-family: '-apple-system', helvetica neue LT Pro; margin: 5px; cursor: pointer;">
                 <strong>HOW K18 WORKS</strong>
             </button> 
             <button onclick="location.href='https://www.instagram.com/k18hair/?hl=en'" type="button" id="instagram" 
-                style="z-index: 9; background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; width: 180px; color:#FFFFFF; font-family: '-apple-system', helvetica neue LT Pro; margin: 5px;">
+                style="background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; width: 180px; color:#FFFFFF; font-family: '-apple-system', helvetica neue LT Pro; margin: 5px; cursor: pointer;">
                 <strong>JOIN OUR CRUSADE</strong>
             </button> 
         </div>
@@ -111,13 +113,12 @@
         const overlay = document.querySelector("#overlay");
         const arButton = document.querySelector("#ar-launcher");
 
+        // PRE-LAUNCH: Swap GLB to the audio-specific version
         arButton.addEventListener('click', () => {
-            // iOS Scaling Fragment #allowsScaling=1 forces the UI on iPhones
             modelViewer.src = "Models/AR_57seconds_withoutBanner.glb?sound=Sound/K18 Edit 57sec_3.mp3";
-            modelViewer.iosSrc = "Models/AR_57seconds_withoutBanner_WithAudioEN.usdz#allowsScaling=1";
-            modelViewer.setAttribute('ar-scale', 'any');
         });
 
+        // POST-AR: Reset to original 2D model and resync
         modelViewer.addEventListener('ar-status', (event) => {
             if (event.detail.status === 'not-presenting') {
                 modelViewer.src = "Models/K18_TEST_Ver.5.glb";
@@ -134,6 +135,7 @@
             modelViewer.play();
         }
 
+        // Scrubbing Sync Logic
         audio.addEventListener("timeupdate", () => {
             if (!isNaN(audio.currentTime) && modelViewer.src.includes("Ver.5")) {
                 modelViewer.currentTime = audio.currentTime;
