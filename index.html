@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -11,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-KT4SXZW');</script>
-
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-443405V12S"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -35,16 +33,16 @@
             display: flex; justify-content: center; align-items: center; cursor: pointer; border-radius: 8px;
         }
         #overlay.hide { display: none; }
-        .play-trigger { background: #ff595a; color: white; border: 1px solid white; padding: 12px 24px; border-radius: 8px; font-weight: bold; font-family: '-apple-system', helvetica neue LT Pro; }
+        .play-trigger { background: #ff595a; color: white; border: 1px solid white; padding: 12px 24px; border-radius: 8px; font-weight: bold; font-family: '-apple-system', sans-serif; }
 
         .ar-button { 
             background-color: #ff595a; border-radius: 8px; border: 1px solid white; 
             position: absolute; top: 10px; right: 10px; height: 40px; 
             color: white; padding: 0 10px; cursor: pointer; z-index: 15;
-            font-family: '-apple-system', helvetica neue LT Pro;
+            font-family: '-apple-system', sans-serif;
         }
 
-        model-viewer { width: 100%; height: 500px; --poster-color: transparent; }
+        model-viewer { width: 100%; height: 500px; }
         .marginauto { margin: 10px auto; display: block; }
     </style>
 </head>
@@ -53,9 +51,7 @@
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KT4SXZW" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="container">
-        <div class="card">
-            <img class="marginauto" src="images/K18_Logo_White.png" alt="Logo" style="height: 100px; width: auto"> 
-        </div>
+        <div class="card"><img class="marginauto" src="images/K18_Logo_White.png" style="height: 100px; width: auto"></div>
 
         <div class="card-white">
             <div id="overlay" onclick="startExperience()">
@@ -65,46 +61,33 @@
             <model-viewer id="sync-model" 
                 src="Models/K18_TEST_Ver.5.glb" 
                 ios-src="Models/AR_57seconds_withoutBanner_WithAudioEN.usdz#allowsScaling=1"
-                ar ar-modes="webxr scene-viewer quick-look" 
-                ar-preferred
+                ar 
+                ar-modes="scene-viewer quick-look webxr" 
                 ar-scale="any" 
                 ar-placement="floor"
                 camera-controls 
-                min-field-of-view="10deg"
-                max-field-of-view="auto"
                 autoplay
-                interaction-prompt="none">
+                interaction-prompt="none"
+                animation-crossfade-duration="0">
                 
-                <button slot="ar-button" class="ar-button" id="ar-launcher">
-                    👆 <strong>AR CLICK HERE</strong>
-                </button>
+                <button slot="ar-button" class="ar-button" id="ar-launcher">👆 <strong>AR CLICK HERE</strong></button>
             </model-viewer>
         </div>
 
         <div class="card" style="text-align: center;">
-            <h3 style="color: white; font-family: '-apple-system', helvetica neue LT Pro"><b>LISTEN TO NARRATION</b></h3>
+            <h3 style="color: white; font-family: sans-serif;"><b>LISTEN TO NARRATION</b></h3>
             <audio id="sound" style="width: 100%;" controls>
                 <source src="Sound/K18 VOICE.mp3" type="audio/mpeg">
             </audio>
         </div>
 
         <div class="card" style="text-align: center;">
-            <h2 style="text-align: center;">
-                <b style="color:#FFFFFF;"><p style="font-family: '-apple-system', helvetica neue LT Pro"><b>CAN'T GET ENOUGH?</b></p></b>
-            </h2>
-            <button onclick="location.href='https://www.k18hair.com/pages/our-science'" type="button" id="website" 
-                style="background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; width: 180px; color:#FFFFFF; font-family: '-apple-system', helvetica neue LT Pro; margin: 5px; cursor: pointer;">
-                <strong>HOW K18 WORKS</strong>
-            </button> 
-            <button onclick="location.href='https://www.instagram.com/k18hair/?hl=en'" type="button" id="instagram" 
-                style="background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; width: 180px; color:#FFFFFF; font-family: '-apple-system', helvetica neue LT Pro; margin: 5px; cursor: pointer;">
-                <strong>JOIN OUR CRUSADE</strong>
-            </button> 
+            <h2 style="color:#FFFFFF; font-family: sans-serif;"><b>CAN'T GET ENOUGH?</b></h2>
+            <button onclick="location.href='https://www.k18hair.com/pages/our-science'" style="background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; width: 180px; color:white; margin: 5px; cursor: pointer;"><strong>HOW K18 WORKS</strong></button> 
+            <button onclick="location.href='https://www.instagram.com/k18hair/?hl=en'" style="background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; width: 180px; color:white; margin: 5px; cursor: pointer;"><strong>JOIN OUR CRUSADE</strong></button> 
         </div>
 
-        <div class="card">
-            <img class="marginauto" src="images/K18 Symbology Sheet 8final750c.png" style="max-width: 100%"> 
-        </div>
+        <div class="card"><img class="marginauto" src="images/K18 Symbology Sheet 8final750c.png" style="max-width: 100%"></div>
     </div>
 
     <script>
@@ -113,18 +96,20 @@
         const overlay = document.querySelector("#overlay");
         const arButton = document.querySelector("#ar-launcher");
 
-        // PRE-LAUNCH: Swap GLB to the audio-specific version
+        // Swap to AR files on launch
         arButton.addEventListener('click', () => {
             modelViewer.src = "Models/AR_57seconds_withoutBanner.glb?sound=Sound/K18 Edit 57sec_3.mp3";
+            // Reinforce attributes
+            modelViewer.setAttribute('ar-scale', 'any');
         });
 
-        // POST-AR: Reset to original 2D model and resync
+        // Reset on Return
         modelViewer.addEventListener('ar-status', (event) => {
             if (event.detail.status === 'not-presenting') {
                 modelViewer.src = "Models/K18_TEST_Ver.5.glb";
                 setTimeout(() => {
                     modelViewer.currentTime = audio.currentTime;
-                    if (!audio.paused) modelViewer.play();
+                    modelViewer.play();
                 }, 600);
             }
         });
@@ -135,7 +120,7 @@
             modelViewer.play();
         }
 
-        // Scrubbing Sync Logic
+        // Two-way sync for the 2D version
         audio.addEventListener("timeupdate", () => {
             if (!isNaN(audio.currentTime) && modelViewer.src.includes("Ver.5")) {
                 modelViewer.currentTime = audio.currentTime;
