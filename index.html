@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en-US">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,19 +10,13 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-KT4SXZW');</script>
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-443405V12S"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-443405V12S');
-    </script>
-
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-205255955-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
         gtag('config', 'UA-205255955-1');
     </script>
 
@@ -35,7 +28,6 @@
         .card { break-inside: avoid; background-color: #00BBB4; border: 2px solid #00BBB9; padding: 10px; margin-bottom: 1.5em; position: relative; }
         .card-white { break-inside: avoid; background-color: #FFFFFF; border: 2px solid #00BBB9; padding: 10px; margin-bottom: 1.5em; position: relative; }
         
-        /* Play Overlay */
         #overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.4); z-index: 10;
@@ -45,12 +37,10 @@
         #overlay.hide { display: none; }
         .play-trigger { background: #ff595a; color: white; border: 2px solid white; padding: 12px 24px; border-radius: 50px; font-weight: bold; }
 
-        /* AR Launch Button */
         .ar-button { 
             background-color: #ff595a; border-radius: 8px; border: 1px solid white; 
             position: absolute; top: 15px; right: 15px; height: 42px; 
-            color: white; padding: 0 15px; cursor: pointer; z-index: 15;
-            font-weight: bold;
+            color: white; padding: 0 15px; cursor: pointer; z-index: 15; font-weight: bold;
         }
 
         model-viewer { width: 100%; height: 500px; }
@@ -68,12 +58,13 @@
 
         <div class="card-white">
             <div id="overlay" onclick="startExperience()">
-                <div class="play-trigger">CLICK TO START</div>
+                <div class="play-trigger">CLICK TO START EXPERIENCE</div>
             </div>
 
             <model-viewer id="sync-model" 
                 src="Models/K18_TEST_Ver.5.glb" 
-                ar ar-modes="webxr scene-viewer quick-look" 
+                ar 
+                ar-modes="webxr scene-viewer quick-look" 
                 ar-preferred
                 ar-scale="any" 
                 camera-controls 
@@ -87,7 +78,7 @@
         </div>
 
         <div class="card" style="text-align: center;">
-            <h3 style="color: white;">LISTEN TO NARRATION</h3>
+            <h3 style="color: white; font-family: '-apple-system', helvetica neue LT Pro">LISTEN TO NARRATION</h3>
             <audio id="sound" style="width: 100%;" controls>
                 <source src="Sound/K18 VOICE.mp3" type="audio/mpeg">
             </audio>
@@ -117,38 +108,41 @@
         const overlay = document.querySelector("#overlay");
         const arButton = document.querySelector("#ar-launcher");
 
-        // Swap to the Audio-Baking AR files and enable scale/animation
+        // PRE-LAUNCH: Swap attributes to the AR-Specific files
         arButton.addEventListener('click', () => {
             modelViewer.src = "Models/AR_57seconds_withoutBanner.glb?sound=Sound/K18 Edit 57sec_3.mp3";
             modelViewer.iosSrc = "Models/AR_57seconds_withoutBanner_WithAudioEN.usdz";
-            modelViewer.arScale = "any";
+            // Reinforce scaling permission for AR
+            modelViewer.setAttribute('ar-scale', 'any');
         });
 
+        // START EXPERIENCE: Remove overlay and play both
         function startExperience() {
             overlay.classList.add("hide");
             audio.play();
             modelViewer.play();
         }
 
-        // Web sync logic
+        // TWO-WAY SYNC: Forces the 3D animation to follow the audio slider exactly
         audio.addEventListener("timeupdate", () => {
-            if (modelViewer.src.includes("Ver.5") && !isNaN(audio.currentTime)) {
+            if (!isNaN(audio.currentTime)) {
                 modelViewer.currentTime = audio.currentTime;
             }
         });
 
-        audio.addEventListener("pause", () => modelViewer.pause());
-        audio.addEventListener("play", () => modelViewer.play());
+        // PLAY/PAUSE SYNC
+        audio.addEventListener("play", () => {
+            modelViewer.play();
+        });
+        
+        audio.addEventListener("pause", () => {
+            modelViewer.pause();
+        });
 
-        // GTM Outbound Link Tracking
-        var getOutboundLink = function(url) {
-            gtag('event', 'click', {
-                'event_category': 'outbound',
-                'event_label': url,
-                'transport_type': 'beacon',
-                'event_callback': function(){document.location = url;}
-            });
-        }
+        // LOGGING FOR DEBUGGING
+        modelViewer.addEventListener('load', () => {
+            console.log("Model Loaded. Current Scale Setting:", modelViewer.arScale);
+        });
     </script>
 </body>
 </html>
