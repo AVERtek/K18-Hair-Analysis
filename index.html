@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en-US">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -9,7 +11,6 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-KT4SXZW');</script>
-    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-443405V12S"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -22,7 +23,7 @@
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js"></script>
 
     <style>
-        body { background-color: #00BBB4; margin: 0; padding: 15px; }
+        body { background-color: #00BBB4; margin: 0; padding: 15px; font-family: -apple-system, sans-serif; }
         .container { column-count: 2; column-width: 400px; column-gap: 20px; }
         .card { break-inside: avoid; background-color: #00BBB4; border: 2px solid #00BBB9; padding: 5px; margin-bottom: 1em; position: relative; }
         .card-white { break-inside: avoid; background-color: #FFFFFF; border: 2px solid #00BBB9; padding: 5px; margin-bottom: 1em; position: relative; }
@@ -33,13 +34,12 @@
             display: flex; justify-content: center; align-items: center; cursor: pointer; border-radius: 8px;
         }
         #overlay.hide { display: none; }
-        .play-trigger { background: #ff595a; color: white; border: 1px solid white; padding: 12px 24px; border-radius: 8px; font-weight: bold; font-family: '-apple-system', sans-serif; }
+        .play-trigger { background: #ff595a; color: white; border: 1px solid white; padding: 12px 24px; border-radius: 8px; font-weight: bold; }
 
         .ar-button { 
             background-color: #ff595a; border-radius: 8px; border: 1px solid white; 
             position: absolute; top: 10px; right: 10px; height: 40px; 
-            color: white; padding: 0 10px; cursor: pointer; z-index: 15;
-            font-family: '-apple-system', sans-serif;
+            color: white; padding: 0 15px; cursor: pointer; z-index: 15; font-weight: bold;
         }
 
         model-viewer { width: 100%; height: 500px; }
@@ -62,27 +62,26 @@
                 src="Models/K18_TEST_Ver.5.glb" 
                 ios-src="Models/AR_57seconds_withoutBanner_WithAudioEN.usdz#allowsScaling=1"
                 ar 
-                ar-modes="scene-viewer quick-look webxr" 
+                ar-modes="webxr quick-look scene-viewer" 
                 ar-scale="any" 
                 ar-placement="floor"
                 camera-controls 
                 autoplay
-                interaction-prompt="none"
-                animation-crossfade-duration="0">
+                interaction-prompt="none">
                 
-                <button slot="ar-button" class="ar-button" id="ar-launcher">👆 <strong>AR CLICK HERE</strong></button>
+                <button slot="ar-button" class="ar-button">👆 <strong>AR CLICK HERE</strong></button>
             </model-viewer>
         </div>
 
         <div class="card" style="text-align: center;">
-            <h3 style="color: white; font-family: sans-serif;"><b>LISTEN TO NARRATION</b></h3>
+            <h3 style="color: white;"><b>LISTEN TO NARRATION</b></h3>
             <audio id="sound" style="width: 100%;" controls>
                 <source src="Sound/K18 VOICE.mp3" type="audio/mpeg">
             </audio>
         </div>
 
         <div class="card" style="text-align: center;">
-            <h2 style="color:#FFFFFF; font-family: sans-serif;"><b>CAN'T GET ENOUGH?</b></h2>
+            <h2 style="color:#FFFFFF;"><b>CAN'T GET ENOUGH?</b></h2>
             <button onclick="location.href='https://www.k18hair.com/pages/our-science'" style="background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; width: 180px; color:white; margin: 5px; cursor: pointer;"><strong>HOW K18 WORKS</strong></button> 
             <button onclick="location.href='https://www.instagram.com/k18hair/?hl=en'" style="background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; width: 180px; color:white; margin: 5px; cursor: pointer;"><strong>JOIN OUR CRUSADE</strong></button> 
         </div>
@@ -94,22 +93,18 @@
         const modelViewer = document.querySelector("#sync-model");
         const audio = document.querySelector("#sound");
         const overlay = document.querySelector("#overlay");
-        const arButton = document.querySelector("#ar-launcher");
 
-        // Swap to AR files on launch
-        arButton.addEventListener('click', () => {
-            modelViewer.src = "Models/AR_57seconds_withoutBanner.glb?sound=Sound/K18 Edit 57sec_3.mp3";
-            // Reinforce attributes
-            modelViewer.setAttribute('ar-scale', 'any');
-        });
-
-        // Reset on Return
+        // Use the status event to manage model swapping
         modelViewer.addEventListener('ar-status', (event) => {
-            if (event.detail.status === 'not-presenting') {
+            if (event.detail.status === 'session-started') {
+                // User is entering AR: Switch to the Audio-Baked GLB
+                modelViewer.src = "Models/AR_57seconds_withoutBanner.glb?sound=Sound/K18 Edit 57sec_3.mp3";
+            } else if (event.detail.status === 'not-presenting') {
+                // User exited AR: Return to the Sync GLB
                 modelViewer.src = "Models/K18_TEST_Ver.5.glb";
                 setTimeout(() => {
                     modelViewer.currentTime = audio.currentTime;
-                    modelViewer.play();
+                    if (!audio.paused) modelViewer.play();
                 }, 600);
             }
         });
@@ -120,7 +115,7 @@
             modelViewer.play();
         }
 
-        // Two-way sync for the 2D version
+        // 2D Sync Logic
         audio.addEventListener("timeupdate", () => {
             if (!isNaN(audio.currentTime) && modelViewer.src.includes("Ver.5")) {
                 modelViewer.currentTime = audio.currentTime;
