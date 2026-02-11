@@ -11,6 +11,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-KT4SXZW');</script>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-443405V12S"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -35,7 +36,6 @@
         .card { break-inside: avoid; background-color: #00BBB4; border: 2px solid #00BBB9; padding: 10px; margin-bottom: 1.5em; position: relative; }
         .card-white { break-inside: avoid; background-color: #FFFFFF; border: 2px solid #00BBB9; padding: 10px; margin-bottom: 1.5em; position: relative; }
         
-        /* The Overlay Play Button */
         #overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.4); z-index: 10;
@@ -45,11 +45,10 @@
         #overlay.hide { display: none; }
         .play-trigger { background: #ff595a; color: white; border: 2px solid white; padding: 12px 24px; border-radius: 50px; font-weight: bold; }
 
-        /* AR Launch Button positioned over the 3D model */
         .ar-button { 
             background-color: #ff595a; border-radius: 8px; border: 1px solid white; 
             position: absolute; top: 15px; right: 15px; height: 42px; 
-            color: white; padding: 0 15px; cursor: pointer; z-index: 5;
+            color: white; padding: 0 15px; cursor: pointer; z-index: 15;
             font-weight: bold;
         }
 
@@ -62,7 +61,6 @@
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KT4SXZW" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="container">
-        
         <div class="card">
             <img class="marginauto" src="images/K18_Logo_White.png" alt="Logo" style="height: 100px; width: auto"> 
         </div>
@@ -74,28 +72,27 @@
 
             <model-viewer id="sync-model" 
                 src="Models/K18_TEST_Ver.5.glb" 
-                ios-src="Models/AR_57seconds_withoutBanner_WithAudioEN.usdz"
                 ar ar-modes="webxr scene-viewer quick-look" 
                 ar-preferred
-                autoplay
                 camera-controls 
+                autoplay
                 interaction-prompt="none">
                 
-                <button slot="ar-button" class="ar-button">
+                <button slot="ar-button" class="ar-button" id="ar-launcher">
                     👆 <strong>AR CLICK HERE</strong>
                 </button>
             </model-viewer>
         </div>
 
         <div class="card" style="text-align: center;">
-            <h3 style="color: white; font-family: '-apple-system', helvetica neue LT Pro">LISTEN TO NARRATION</h3>
+            <h3 style="color: white;">LISTEN TO NARRATION</h3>
             <audio id="sound" style="width: 100%;" controls>
                 <source src="Sound/K18 VOICE.mp3" type="audio/mpeg">
             </audio>
         </div>
 
         <div style="text-align: center; margin-bottom: 20px;">   
-            <button onclick="location.href='https://avertek.github.io/K18-Hair-Analysis-espanol/'" 
+            <button class="marginauto" onclick="location.href='https://avertek.github.io/K18-Hair-Analysis-espanol/'" 
                     style="background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; color:#FFFFFF; padding: 0 15px; cursor: pointer;">
                 <strong>EN ESPANOL</strong>
             </button> 
@@ -110,17 +107,19 @@
             <button onclick="window.open('https://www.k18hair.com/pages/our-science')" style="background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; width: 180px; color: white; cursor: pointer; margin-bottom: 10px;"><strong>HOW K18 WORKS</strong></button>
             <button onclick="window.open('https://www.instagram.com/k18hair/?hl=en')" style="background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; width: 180px; color: white; cursor: pointer;"><strong>JOIN OUR CRUSADE</strong></button>
         </div>
-
-        <div class="card" style="text-align: center; color: white;">
-            <p style="font-size: 0.8em;"><em>If AR button does not appear on mobile device, use another browser</em></p>
-            <a href="https://avertek.net/" style="text-decoration: none; border-bottom: 1px solid #ffffff; color: #ffffff;">Learn more about AVERtek's XR-NOW</a>
-        </div>
     </div>
 
     <script>
         const modelViewer = document.querySelector("#sync-model");
         const audio = document.querySelector("#sound");
         const overlay = document.querySelector("#overlay");
+        const arButton = document.querySelector("#ar-launcher");
+
+        // When the AR button is clicked, swap the source to the AR files
+        arButton.addEventListener('click', () => {
+            modelViewer.src = "Models/AR_57seconds_withoutBanner.glb?sound=Sound/K18 Edit 57sec_3.mp3";
+            modelViewer.iosSrc = "Models/AR_57seconds_withoutBanner_WithAudioEN.usdz";
+        });
 
         function startExperience() {
             overlay.classList.add("hide");
@@ -128,25 +127,15 @@
             modelViewer.play();
         }
 
-        // Keep Web Animation Synced to Audio
         audio.addEventListener("timeupdate", () => {
-            if (!isNaN(audio.currentTime)) {
+            // Only sync if we are still on the webpage version (Ver.5)
+            if (modelViewer.src.includes("Ver.5") && !isNaN(audio.currentTime)) {
                 modelViewer.currentTime = audio.currentTime;
             }
         });
 
         audio.addEventListener("pause", () => modelViewer.pause());
         audio.addEventListener("play", () => modelViewer.play());
-
-        // Outbound Link Tracking
-        var getOutboundLink = function(url) {
-            gtag('event', 'click', {
-                'event_category': 'outbound',
-                'event_label': url,
-                'transport_type': 'beacon',
-                'event_callback': function(){document.location = url;}
-            });
-        }
     </script>
 </body>
 </html>
