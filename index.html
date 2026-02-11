@@ -5,138 +5,120 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>K18 AR Experience</title>
 
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-KT4SXZW');</script>
-
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js"></script>
     
     <style> 
         body { background-color: #00BBB4; margin: 0; padding: 15px; font-family: -apple-system, Helvetica, Arial, sans-serif; }
         .container { column-count: 2; column-width: 400px; column-gap: 20px; }
         .card { break-inside: avoid; background-color: #00BBB4; border: 2px solid #00BBB9; padding: 10px; margin-bottom: 1.5em; position: relative; }
-        .card-white { break-inside: avoid; background-color: #FFFFFF; border: 2px solid #00BBB9; padding: 10px; margin-bottom: 1.5em; }
-        .marginauto { margin: 10px auto; display: block; }
-        .center-content { text-align: center; color: #FFFFFF; }
+        .card-white { break-inside: avoid; background-color: #FFFFFF; border: 2px solid #00BBB9; padding: 10px; margin-bottom: 1.5em; position: relative; }
         
-        /* AR Button Styling */
+        /* The Overlay Play Button */
+        #overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 100;
+            display: flex; justify-content: center; align-items: center;
+            border-radius: 8px; cursor: pointer;
+        }
+        #overlay.hide { display: none; }
+        .play-trigger { background: #ff595a; color: white; border: 2px solid white; padding: 15px 30px; border-radius: 50px; font-weight: bold; font-size: 1.2em; }
+
         .ar-button { 
             background-color: #ff595a; border-radius: 8px; border: 1px solid white; 
             position: absolute; top: 15px; right: 15px; height: 42px; 
             color: white; padding: 0 15px; cursor: pointer; z-index: 10;
-            font-weight: bold;
         }
 
-        /* Action Buttons */
         .action-btn {
             background-color: #ff595a; border-radius: 8px; border: 1px solid white; 
-            height: 40px; color: white; padding: 0 20px; cursor: pointer; 
-            text-transform: uppercase; font-weight: bold; margin: 5px;
+            height: 40px; color: white; padding: 0 20px; cursor: pointer; margin: 5px;
         }
 
-        model-viewer { width: 100%; height: 500px; --poster-color: transparent; }
+        model-viewer { width: 100%; height: 500px; }
     </style>
 </head>
 
 <body>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KT4SXZW" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-
     <div class="container">
-        
         <div class="card">
-            <img class="marginauto" src="images/K18_Logo_White.png" alt="K18 Logo" style="height: 80px; width: auto;"> 
+            <img style="margin: 10px auto; display: block; height: 80px;" src="images/K18_Logo_White.png"> 
         </div>
 
         <div class="card">
-            <model-viewer id="ar-interaction" 
-                src="Models/AR_57seconds_withoutBanner.glb"
+            <model-viewer id="interaction" src="Models/AR_57seconds_withoutBanner.glb"
                 ios-src="Models/AR_57seconds_withoutBanner_WithAudioEN.usdz"
-                ar ar-modes="webxr scene-viewer quick-look" 
-                ar-preferred 
-                camera-controls
-                autoplay
-                alt="K18 AR Experience">
-                
-                <button slot="ar-button" class="ar-button">
-                    👆 AR CLICK HERE
-                </button>
+                ar ar-modes="webxr scene-viewer quick-look" ar-preferred camera-controls>
+                <button slot="ar-button" class="ar-button">👆 AR CLICK HERE</button>
             </model-viewer>
         </div>
 
-        <div class="card center-content">
-            <h3 style="margin-bottom: 10px;">LISTEN TO NARRATION</h3>
-            <audio controls id="main-audio" style="width: 100%;">
+        <div class="card-white">
+            <div id="overlay" onclick="startExperience()">
+                <div class="play-trigger">CLICK TO START EXPERIENCE</div>
+            </div>
+
+            <model-viewer id="sync-model" 
+                src="Models/K18_TEST_Ver.5.glb" 
+                camera-controls 
+                interaction-prompt="none">
+            </model-viewer>
+        </div>
+
+        <div class="card" style="text-align: center;">
+            <h3 style="color: white;">NARRATION</h3>
+            <audio id="main-audio" style="width: 100%;" controls>
                 <source src="Sound/K18 VOICE.mp3" type="audio/mpeg">
             </audio>
         </div>
 
-        <div class="card-white">
-            <model-viewer id="sync-model" 
-                src="Models/K18_TEST_Ver.5.glb" 
-                camera-controls 
-                interaction-prompt="none" 
-                autoplay
-                style="height: 500px;">
-            </model-viewer>
-        </div>
-
-        <div class="center-content">   
-            <button class="action-btn" onclick="location.href='https://avertek.github.io/K18-Hair-Analysis-espanol/'">
-                EN ESPAÑOL
-            </button> 
+        <div style="text-align: center; margin-bottom: 20px;">   
+            <button class="action-btn" onclick="location.href='https://avertek.github.io/K18-Hair-Analysis-espanol/'">EN ESPAÑOL</button> 
         </div>
 
         <div class="card">
-            <img class="marginauto" src="images/K18 Symbology Sheet 8final750c.png" style="width: 100%; height: auto;"> 
+            <img src="images/K18 Symbology Sheet 8final750c.png" style="width: 100%;"> 
         </div>
-
-        <div class="card center-content">
-            <h4>CAN'T GET ENOUGH?</h4>
-            <button class="action-btn" onclick="window.open('https://www.k18hair.com/pages/our-science')">How K18 Works</button> 
-            <button class="action-btn" onclick="window.open('https://www.instagram.com/k18hair/?hl=en')">Join Our Crusade</button> 
-        </div>
-
-        <div class="card center-content">
-            <p style="font-size: 12px; opacity: 0.8;">If AR button does not appear on mobile, try another browser.</p>
-            <a href="https://avertek.net/" style="color: white; font-size: 14px;">Powered by AVERtek's XR-NOW</a>
-        </div>
-
     </div>
 
     <script>
         const modelViewer = document.querySelector("#sync-model");
         const audio = document.querySelector("#main-audio");
+        const overlay = document.querySelector("#overlay");
 
-        // Ensure the model starts playing as soon as it's finished loading
-        modelViewer.addEventListener('load', () => {
-            console.log("3D Model Loaded");
+        // Function triggered by the Overlay Button
+        function startExperience() {
+            // Hide the overlay
+            overlay.classList.add("hide");
+            
+            // Start both simultaneously
+            audio.play();
             modelViewer.play();
-        });
+            
+            console.log("Experience Started");
+        }
 
-        // Sync 3D animation time to Audio time
+        // KEEP THEM SYNCED DURING PLAYBACK
         audio.addEventListener("timeupdate", () => {
-            // We set the model's current time to match the audio
-            modelViewer.currentTime = audio.currentTime;
+            // Force the 3D model to follow the audio's exact timestamp
+            if (!isNaN(audio.currentTime)) {
+                modelViewer.currentTime = audio.currentTime;
+            }
         });
 
-        // Sync Play/Pause states
-        audio.addEventListener("play", () => {
-            modelViewer.play();
-        });
-
+        // If user pauses the audio using the player bar, pause the model
         audio.addEventListener("pause", () => {
             modelViewer.pause();
         });
 
-        // Fix for "Autoplay" restrictions: Start audio/animation on first user click
-        document.body.addEventListener('click', () => {
-            if (audio.paused) {
-                audio.play().catch(e => console.log("Audio waiting for interaction"));
-                modelViewer.play();
-            }
-        }, { once: true });
+        // If user resumes the audio, resume the model
+        audio.addEventListener("play", () => {
+            modelViewer.play();
+        });
+
+        // Optional: Ensure model is loaded before allowing play
+        modelViewer.addEventListener('load', () => {
+            console.log("Model loaded and ready for sync.");
+        });
     </script>
 </body>
 </html>
