@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>K18 Hair Analysis</title>
 
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -26,6 +27,11 @@
     <style>
         body { background-color: #00BBB4; margin: 0; padding: 15px; font-family: -apple-system, sans-serif; }
         .container { column-count: 2; column-width: 400px; column-gap: 20px; }
+        
+        @media (max-width: 800px) {
+            .container { column-count: 1; }
+        }
+
         .card { break-inside: avoid; background-color: #00BBB4; border: 2px solid #00BBB9; padding: 5px; margin-bottom: 1em; position: relative; }
         .card-white { break-inside: avoid; background-color: #FFFFFF; border: 2px solid #00BBB9; padding: 5px; margin-bottom: 1em; position: relative; }
         
@@ -37,6 +43,11 @@
         #overlay.hide { display: none; }
         .play-trigger { background: #ff595a; color: white; border: 1px solid white; padding: 12px 24px; border-radius: 8px; font-weight: bold; }
 
+        /* HIDE NATIVE AR BUTTONS */
+        model-viewer::part(default-ar-button) {
+            display: none !important;
+        }
+
         .ar-button { 
             background-color: #ff595a; border-radius: 8px; border: 1px solid white; 
             position: absolute; top: 10px; right: 10px; height: 40px; 
@@ -46,6 +57,7 @@
         model-viewer { width: 100%; height: 500px; --poster-color: transparent; }
         .marginauto { margin: 10px auto; display: block; }
         .centerImage { text-align: center; display: block; }
+        button { cursor: pointer; font-family: inherit; }
     </style>
 </head>
 
@@ -70,7 +82,8 @@
                 ar-scale="any" 
                 camera-controls 
                 autoplay
-                interaction-prompt="none">
+                interaction-prompt="none"
+                loading="eager">
                 
                 <button slot="ar-button" class="ar-button" id="ar-launcher">
                     👆 <strong>AR CLICK HERE</strong>
@@ -80,14 +93,14 @@
 
         <div class="card" style="text-align: center;">
             <h3 style="color: white;"><b>LISTEN TO NARRATION</b></h3>
-            <audio id="sound" style="width: 100%;" controls>
+            <audio id="sound" style="width: 100%;" controls loop>
                 <source src="Sound/K18 VOICE.mp3" type="audio/mpeg">
             </audio>
         </div>
 
         <div class="centerImage" style="margin-bottom: 20px;">   
             <button onclick="location.href='https://avertek.github.io/K18-Hair-Analysis-espanol/'" 
-                    style="background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; color:#FFFFFF; padding: 0 15px; cursor: pointer;">
+                    style="background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; color:#FFFFFF; padding: 0 15px;">
                 <strong>EN ESPAÑOL</strong>
             </button> 
         </div>
@@ -95,11 +108,11 @@
         <div class="card" style="text-align: center;">
             <h2 style="color:#FFFFFF;"><b>CAN'T GET ENOUGH?</b></h2>
             <button onclick="location.href='https://www.k18hair.com/pages/our-science'" 
-                style="background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; width: 250px; color:#FFFFFF; margin: 5px; cursor: pointer;">
+                style="background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; width: 250px; color:#FFFFFF; margin: 5px;">
                 <strong>HOW K18 WORKS</strong>
             </button> 
             <button onclick="location.href='https://www.instagram.com/k18hair/?hl=en'" 
-                style="background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; width: 250px; color:#FFFFFF; margin: 5px; cursor: pointer;">
+                style="background-color: #ff595a; border-radius: 8px; border: 1px solid white; height: 35px; width: 250px; color:#FFFFFF; margin: 5px;">
                 <strong>JOIN OUR CRUSADE</strong>
             </button> 
         </div>
@@ -115,13 +128,38 @@
         const overlay = document.querySelector("#overlay");
         const arLauncher = document.querySelector("#ar-launcher");
 
-        // Swap GLB to AR-specific file when user enters AR
+        function startExperience() {
+            overlay.classList.add("hide");
+            audio.play();
+            modelViewer.play();
+        }
+
+        // AR Launch & Asset Swap
         arLauncher.addEventListener('click', () => {
+            // Prime audio for AR session
+            audio.play().then(() => {
+                // If the user hasn't started the experience, we pause it after priming
+                if(overlay.classList.contains("hide") === false) {
+                   audio.pause();
+                }
+            }).catch(e => console.log("Audio prime bypass"));
+
+            // Switch to specialized AR asset
             modelViewer.src = "Models/AR_57seconds_withoutBanner.glb?sound=Sound/K18 Edit 57sec_3.mp3";
+            
+            // Activate AR
+            modelViewer.activateAR();
         });
 
-        // Detect exit and reset to 2D
+        // AR Status Listeners
         modelViewer.addEventListener('ar-status', (event) => {
+            // Trigger play when placed in the real world
+            if (event.detail.status === 'object-placed') {
+                modelViewer.play();
+                audio.play();
+            }
+
+            // Reset back to standard GLB when exiting AR
             if (event.detail.status === 'not-presenting') {
                 modelViewer.src = "Models/K18_TEST_Ver.5.glb";
                 setTimeout(() => {
@@ -131,13 +169,7 @@
             }
         });
 
-        function startExperience() {
-            overlay.classList.add("hide");
-            audio.play();
-            modelViewer.play();
-        }
-
-        // Two-way slider sync
+        // Audio-to-Model Sync
         audio.addEventListener("timeupdate", () => {
             if (!isNaN(audio.currentTime) && modelViewer.src.includes("Ver.5")) {
                 modelViewer.currentTime = audio.currentTime;
@@ -146,6 +178,13 @@
 
         audio.addEventListener("play", () => modelViewer.play());
         audio.addEventListener("pause", () => modelViewer.pause());
+
+        // Visibility protection
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState !== "visible") {
+                audio.pause();
+            }
+        });
     </script>
 </body>
 </html>
